@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:3000
+
+### TEST API
+GET {{baseUrl}}
+
+### CREATE USER
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Sailesh Kumar Mandal",
+  "email": "saileshkumar2061@gmail.com",
+  "password": "test123",
+  "role": "admin",
+  "phone": "9867017386",
+  "district": "Kailali",
+  "municipality": "Dhangadhi",
+  "is_verified": true,
+  "profile_photo": "https://example.com/sailesh.jpg"
+}   

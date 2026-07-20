@@ -15,6 +15,13 @@ const UserSchema = new Schema(
       trim: true,
       lowercase: true,
       maxlength: 150,
+
+      validate: {
+        validator: (email) => { //it will check if the email is valid or not using a regular expression. The regular expression checks for a valid email format, and the test method returns true if the email is valid and false otherwise.
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        },
+        message: "Invalid email address",
+      },
     },
     phone: {
       type: String,
@@ -61,6 +68,13 @@ const UserSchema = new Schema(
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
 );
+
+UserSchema.pre("findOneAndUpdate", async function () {
+  const updatedData = this.getUpdate();
+  if (updatedData.password) {
+    updatedData.password = await hash(updatedData.password, 10);
+  }
+});
 
 const User = model("User", UserSchema);
 export default User;

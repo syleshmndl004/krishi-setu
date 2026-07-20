@@ -1,6 +1,14 @@
-import mongoose from "mongoose" //loads the Mongoose library.
+import mongoose from "mongoose";
 
-const connectDB = async () => {} //declares an async function. async lets you use await inside it to pause until a Promise resolves, instead of chaining .then() calls.
+const connectDB = async () => {
+    try { //try does not work then catch will handle the error
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("MongoDB connected successfully");
+    } catch (error) { //catch will handle the error if there is any error while connecting to the database
+        console.error("MongoDB connection error:", error);
+        process.exit(1); // Exit the process with failure
+    }
+};
 
-await mongoose.connect(process.env.MONGO_URI)// opens a DB connection using the URI from.env. Awaited because it's asynchronous — it makes a network call.
-
+//commonjs => module.exports = connectDB; // older approach to export the connectDB function
+export default connectDB; // ES modules approach to export the connectDB function
